@@ -36,6 +36,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = \Validator::make($request->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
@@ -46,6 +47,19 @@ class ProductController extends Controller
             return response()->json([
                 'success' => false,
                 'data' => $validator->errors(),
+            ]);
+        }
+
+        $product = Product::create([
+            "name" => $request->name,
+            "price" => $request->price,
+            "description" => $request->description,
+        ]);
+
+        if ($product) {
+            return response()->json([
+                'success' => true,
+                'message' => "Product addedd Successfully!",
             ]);
         }
     }
@@ -65,15 +79,18 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return response()->json([
+            'success' => true,
+            'data' => $product
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
         $validator = \Validator::make($request->all(), [
             'name' => 'required|max:255',
@@ -88,7 +105,7 @@ class ProductController extends Controller
             ]);
         }
 
-        $update = Product::update([
+        $update = $product->update([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
@@ -107,6 +124,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+
         if ($product->delete()) {
             return response()->json([
                 'success' => true,
