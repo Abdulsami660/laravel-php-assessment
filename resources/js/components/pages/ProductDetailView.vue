@@ -338,6 +338,8 @@ export default {
     mounted() {
         axios.get('/api/products/' + this.$router.currentRoute.value.params.id).then(response => {
             this.product = response.data.data
+        }).catch(response=>{
+            console.log(response);
         })
         // console.log(this.$router.currentRoute.value.params.id)
     }

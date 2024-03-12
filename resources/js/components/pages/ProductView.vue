@@ -230,11 +230,11 @@
                       <td style="width:200px">
                         <button @click="editProduct(product.id)" class="btn btn-sm btn-primary "
                           style="margin-right: 10px;">Edit</button>
-                        <button style="margin-right: 10px;" @click="confirmDeletion(product.id)" class="btn btn-sm btn-danger "><i
-                            class="bx bx-trash"></i></button>
-                        <router-link  class="btn btn-sm btn-info" :to="`/products/${product.id}/detail`">
-                            <i class='bx bxl-blender'></i>
-                          </router-link>
+                        <button style="margin-right: 10px;" @click="confirmDeletion(product.id)"
+                          class="btn btn-sm btn-danger "><i class="bx bx-trash"></i></button>
+                        <router-link class="btn btn-sm btn-info" :to="`/products/${product.id}/detail`">
+                          <i class='bx bxl-blender'></i>
+                        </router-link>
 
                       </td>
                     </tr>
@@ -283,6 +283,8 @@ export default {
         }
         this.editProductId = id
         $("#edit-form-modal").modal("show")
+      }).catch(response => {
+        console.log(response);
       });
     },
     updateProduct() {
@@ -299,8 +301,10 @@ export default {
             icon: "success"
           });
         }
+      }).catch(response => {
+        console.log(response);
       })
-      console.log(this.productForm, this.editProductId);
+
     },
     addProduct() {
       axios.post('/api/products', this.productForm).then(response => {
@@ -317,6 +321,8 @@ export default {
           });
         }
 
+      }).catch(response => {
+        console.log(response);
       });
     },
     confirmDeletion(id) {
@@ -341,6 +347,8 @@ export default {
               });
             }
 
+          }).catch(response => {
+            console.log(response);
           })
 
         }
@@ -349,7 +357,9 @@ export default {
     async getProducts() {
       await axios.get('/api/products').then((response) => {
         this.products = response.data.data;
-      })
+      }).catch(response=>{
+            console.log(response);
+        })
     }
   },
   mounted() {
